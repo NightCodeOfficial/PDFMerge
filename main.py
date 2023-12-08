@@ -1,16 +1,23 @@
-# This is a sample Python script.
+# A simple program to merge all pdfs in a directory
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from pypdf import PdfMerger
+from pypdf import PdfReader
+from tkinter import filedialog
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+source_dir = filedialog.askdirectory()
+merger = PdfMerger(strict=False)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+for item in os.listdir(source_dir):
+    if item.endswith('pdf'):
+        # Add the pdf with visual confirmation
+        pdf = PdfReader(source_dir+"/" + item, strict=False)
+        print(item)
+        merger.append(pdf)
+
+file_name = str(input("Enter the file name for the finished merge: "))
+
+# Save the file and close the merger
+merger.write(source_dir+f'/{file_name} - Complete.pdf')
+merger.close()
