@@ -9,20 +9,23 @@ from tkinter import filedialog
 merger = PdfMerger(strict=False)
 
 def main():
-    source_dir = filedialog.askdirectory()
+    try:
+        source_dir = filedialog.askdirectory()
 
-    for item in os.listdir(source_dir):
-        if item.endswith('pdf'):
-            # Add the pdf with visual confirmation
-            pdf = PdfReader(source_dir+"/" + item, strict=False)
-            print(item)
-            merger.append(pdf)
+        for item in os.listdir(source_dir):
+            if item.endswith('pdf'):
+                # Add the pdf with visual confirmation
+                pdf = PdfReader(source_dir+"/" + item, strict=False)
+                print(item)
+                merger.append(pdf)
 
-    file_name = str(input("Enter the file name for the finished merge: "))
+        file_name = str(input("Enter the file name for the finished merge: "))
 
-    # Save the file and close the merger
-    merger.write(source_dir+f'/{file_name} - Complete.pdf')
-    merger.close()
+        # Save the file and close the merger
+        merger.write(source_dir+f'/{file_name} - Complete.pdf')
+        merger.close()
+    except FileNotFoundError:
+        print("Either the file window was closed or the selected folder could not be found...quitting")
 
 
 if __name__ == '__main__':
